@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Container, toast } from "@chakra-ui/react";
 import AppContext from "../components/AppContext";
 import Web3 from "web3";
 import WalletConnectProvider from "@walletconnect/web3-provider";
@@ -8,11 +8,12 @@ import theme from "../styles/theme";
 import "@fontsource/poppins/300.css";
 import "@fontsource/poppins/700.css";
 const abi = require("../abi/inventoryNFT.json");
-// import { createToast } from "../utils/toast";
+import { createToast } from "../utils/toast";
 // import { correctNetwork } from "../utils/network";
 import { getNetworkName, getChainInfo } from "../utils/formatters";
 // import { supportedChains } from "../constants/supportedChains";
 // import "../styles/style.css";
+import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps }) {
   const [web3, setWeb3] = useState(null);
@@ -47,7 +48,7 @@ function MyApp({ Component, pageProps }) {
   const subscribe = async (provider) => {
     provider.on("networkChanged", (net) => changeChain(net));
     provider.on("accountsChanged", (accounts) => changeAccount(accounts));
-    provider.on("connect", () => {});
+    provider.on("connect", () => { });
 
     provider.on("disconnect", () => {
       console.log("disconnected");
@@ -165,9 +166,9 @@ function MyApp({ Component, pageProps }) {
   //   }
   // };
 
-  // const toast = (props) => {
-  //   createToast(props);
-  // };
+  const toast = (props) => {
+    createToast(props);
+  };
 
   return (
     <ChakraProvider>
@@ -198,9 +199,22 @@ function MyApp({ Component, pageProps }) {
           setProposals: setProposals,
           setRemount: setRemount,
           switchChain: switchChain,
+          toast: toast,
         }}
       >
-        <Component {...pageProps} />
+        <Layout>
+          <Container
+            minH="90vh"
+            minW="container.lg"
+            alignItems="center"
+            justifyContent="center"
+            style={{
+              overflowX: "scroll",
+            }}
+          >
+            <Component {...pageProps} />
+          </Container>
+        </Layout>
       </AppContext.Provider>
     </ChakraProvider>
   );

@@ -4,12 +4,13 @@ import Head from "next/head";
 import Nav from "./Nav";
 import Footer from "./Footer";
 
-export default function Layout() {
+
+export default function Layout({ children }) {
 
   return (
     <>
       <Box bg="black">
-        <Head>
+        <Head >
           <title>LGT Inventory</title>
           <meta
             property="og:title"
@@ -17,23 +18,9 @@ export default function Layout() {
             key="title"
           />
         </Head>
-        <Nav
-          style={{
-            overflowX: "hidden !important",
-          }}
-        />
-        <Container
-          minH="80vh"
-          maxW="container.lg"
-          alignItems="center"
-          justifyContent="center"
-          style={{
-            overflowX: "hidden !important",
-          }}
-        >
-          <Box minH="70vh">hello</Box>
-        </Container>
-          <Footer />
+        <Nav/>
+        { children }
+        <Footer />
       </Box>
     </>
   );

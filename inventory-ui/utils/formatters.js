@@ -1,4 +1,5 @@
 // functions to format data for display to user
+import { supportedChains } from "../components/Chain";
 
 export function convertVotingPeriod(seconds) {
   let time;

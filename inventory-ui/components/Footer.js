@@ -26,36 +26,10 @@ import {
   
   export default function Footer() {
     return (
-      <HStack minH="10vh" minW="auto" spacing={4} id="footer">
-        <Text fontSize="xs">
+      <HStack minH="5vh" minW="auto" spacing={4} id="footer">
+        <Text color="white" w="100%" align="center" alignContent={"center"} fontSize="xs">
           For LGT internal use only
         </Text>
-        {/* <Text as="button" onClick={TOS} direction={"column"} fontSize="xs">
-          <a
-            href="https://bold-thing-f55.notion.site/KaliCo-Terms-of-Service-91ef53c0763d423dbc035a29dabc4ca9"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <i>ToS</i>
-          </a>
-        </Text> */}
-        <Spacer />
-        <Stack
-          direction={"row"}
-          spacing={-1}
-          border="1px solid"
-          borderRadius="xl"
-        >
-          <SocialButton href={"https://github.com/kalidao"}>
-            <FiGithub />
-          </SocialButton>
-          <SocialButton href={"https://twitter.com/_KaliDAO"}>
-            <FiTwitter />
-          </SocialButton>
-          <SocialButton href={"https://discord.com/invite/UKCS9ghzUE"}>
-            <FiUsers />
-          </SocialButton>
-        </Stack>
       </HStack>
     );
   }
