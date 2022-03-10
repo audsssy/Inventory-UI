@@ -29,7 +29,7 @@ import { addresses } from "../eth/addresses";
 export default function CreateProduct() {
   const value = useContext(AppContext);
   const { web3, account } = value.state;
-  const [didCreateProduct, setDidCreateProduct] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const { handleSubmit, register, control } = useForm();
 
@@ -55,7 +55,7 @@ export default function CreateProduct() {
       try {
         let result = await factory.methods.createProduct(name, types, quantities).send({ from: account })
         console.log("This is the result", result)
-        setDidCreateProduct(true)
+        setDidSubmit(true)
       } catch(e) {
         console.log(e)
       }
@@ -162,7 +162,7 @@ export default function CreateProduct() {
       <Button type="submit">
         Create
       </Button>
-      {didCreateProduct && <Text color="green">Product Created!</Text>}
+      {didSubmit && <Text color="green">Product Created!</Text>}
     </VStack>
   );
 }

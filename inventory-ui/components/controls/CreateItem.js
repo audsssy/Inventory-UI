@@ -18,18 +18,22 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   color,
+  Checkbox,
+  Spacer,
+  Select,
 } from "@chakra-ui/react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import inventoryNFT from "../eth/InventoryNft";
 import { addresses } from "../eth/addresses";
+import { ethers } from "ethers";
 
 
 export default function CreateProduct() {
   const value = useContext(AppContext);
   const { web3, account } = value.state;
-  const [didCreateProduct, setDidCreateProduct] = useState(false);
-
+  const [didSubmit, setDidSubmit] = useState(false);
+  var BN = web3.utils.BN;
   const { handleSubmit, register, control } = useForm();
 
   const { fields, append, remove } = useFieldArray({
@@ -40,8 +44,8 @@ export default function CreateProduct() {
 
 
   const handleSubmission = async (values) => {
-    const { product, variant} = values;
-    
+    const { product, price, location, tag, digitization, variant, note } = values;
+
     let types = []
     let quantities = []
     for (let i = 0; i < variant.length; i++) {
@@ -53,10 +57,10 @@ export default function CreateProduct() {
     } else {
       const factory = inventoryNFT(addresses.inventoryNft, web3)
       try {
-        let result = await factory.methods.createItem(product, types, quantities).send({ from: account })
+        let result = await factory.methods.mintItem(product, types, ethers.utils.parseEther(price), location, tag, digitization, note).send({ from: account })
         console.log("This is the result", result)
-        setDidCreateProduct(true)
-      } catch(e) {
+        setDidSubmit(true)
+      } catch (e) {
         console.log(e)
       }
     }
@@ -72,7 +76,7 @@ export default function CreateProduct() {
         <b>Create Item</b>
       </Heading>
       <br></br>
-      <HStack w="80%" spacing="10%">
+      <HStack w="80%">
         <FormControl isRequired>
           <FormLabel color="whiteAlpha.800">Product ID: </FormLabel>
           <Input
@@ -84,16 +88,66 @@ export default function CreateProduct() {
           />
         </FormControl>
       </HStack>
-      <HStack w="80%" spacing="10%">
+      <HStack w="80%">
         <FormControl isRequired>
-        <FormLabel color="whiteAlpha.800">Name: </FormLabel>
-        <Input
-          w="100%"
-          color="white"
-          name="product"
-          placeholder="e.g., Crewneck, Varsity Jacket, Socks"
-          {...register("product")}
-        />
+          <FormLabel color="whiteAlpha.800">Price: </FormLabel>
+          <Input
+            w="100%"
+            color="white"
+            name="price"
+            placeholder="e.g., 1, 2, 3"
+            {...register("price")}
+          />
+        </FormControl>
+      </HStack>
+      <HStack w="80%">
+        <FormControl isRequired>
+          <FormLabel color="whiteAlpha.800">Location: </FormLabel>
+          <Select
+            w="100%"
+            color="white"
+            name="location"
+            placeholder="Select a location"
+            {...register("location")}
+          >
+            <option value="0">Seller</option>
+            <option value="1">LGT HQ</option>
+            <option value="2">LGT Partner</option>
+            <option value="3">Transit</option>
+            <option value="4">Buyer</option>
+          </Select>
+        </FormControl>
+      </HStack>
+      <HStack w="80%" spacing={10} align="stretch">
+        <HStack w="40">
+          <Text color="whiteAlpha.800">Tag Integration</Text>
+          <Checkbox
+            color="white"
+            name="tag"
+            {...register("tag")}
+          />
+        </HStack>
+        <Spacer />
+        <HStack w="40%">
+          <Text color="whiteAlpha.800">Product Digitization</Text>
+          <Checkbox
+            color="white"
+            name="digitization"
+            {...register("digitization")}
+          />
+
+        </HStack>
+      </HStack>
+      <HStack w="80%">
+        <FormControl>
+          <FormLabel color="whiteAlpha.800">Notes: </FormLabel>
+          <Input
+            w="100%"
+            color="white"
+            name="note"
+            placeholder="Notes"
+            {...register("note")}
+          />
         </FormControl>
       </HStack>
       <List spacing={10} width="80%" className="alternating-list">
@@ -172,7 +226,7 @@ export default function CreateProduct() {
       <Button type="submit">
         Create
       </Button>
-      {didCreateProduct && <Text color="green">Product Created!</Text>}
+      {didSubmit && <Text color="green">Product Created!</Text>}
     </VStack>
   );
 }

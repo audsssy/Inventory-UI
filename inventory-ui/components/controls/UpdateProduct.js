@@ -21,14 +21,13 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { toDecimal, fromDecimals } from "../../utils/formatters"
 import inventoryNFT from "../eth/InventoryNft";
 import { addresses } from "../eth/addresses";
 
 export default function UpdateProduct() {
   const value = useContext(AppContext);
   const { web3, account } = value.state;
-  const [didCreateProduct, setDidCreateProduct] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const { handleSubmit, register, control } = useForm();
 
@@ -53,7 +52,7 @@ export default function UpdateProduct() {
       try {
         let result = await factory.methods.updateProduct(product, name, types, quantities).send({ from: account })
         console.log("This is the result", result)
-        setDidCreateProduct(true)
+        setDidSubmit(true)
       } catch (e) {
         console.log(e)
       }
@@ -170,7 +169,7 @@ export default function UpdateProduct() {
       <Button type="submit">
         Create
       </Button>
-      {didCreateProduct && <Text color="green">Product Updated!</Text>}
+      {didSubmit && <Text color="green">Product Updated!</Text>}
     </VStack>
   );
 }
