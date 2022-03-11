@@ -120,10 +120,10 @@ export default function AdminControls() {
           </>
         )}
       <HStack>
-        <Button onClick={toggleP}>Create Product</Button>
-        <Button onClick={toggleUp}>Update Product</Button>
-        <Button onClick={toggleI}>Create Item</Button>
-        <Button onClick={toggleUi}>Update Item</Button>
+        <Button bg="white" color="black" onClick={toggleP}>Create Product</Button>
+        <Button bg="white" color="black" onClick={toggleUp}>Update Product</Button>
+        <Button bg="white" color="black" onClick={toggleI}>Create Item</Button>
+        <Button bg="white" color="black" onClick={toggleUi}>Update Item</Button>
         <Button>Ready for Auction</Button>
       </HStack>
       <HStack>

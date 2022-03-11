@@ -29,9 +29,9 @@ export default function NavRightContainer() {
       <HStack h="45px" align={"center"}>
         <Link href="/admin">
           <a>
-           <Button variant="outline" border="1px solid" mr="10px" textColor="white">
+           {isAdmin && <Button variant="outline" border="1px solid" mr="10px" textColor="white">
             Admin
-          </Button>
+          </Button>}
           </a>
         </Link>
         <HStack

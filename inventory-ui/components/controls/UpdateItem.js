@@ -42,7 +42,7 @@ export default function UpdateItem() {
   });
 
   const handleSubmission = async (values) => {
-    const { product, price, location, tag, digitization, variant, note } = values;
+    const { item, price, location, tag, digitization, variant, note } = values;
     console.log(values)
     let types = []
     let quantities = []
@@ -55,7 +55,7 @@ export default function UpdateItem() {
     } else {
       const factory = inventoryNFT(addresses.inventoryNft, web3)
       try {
-        let result = await factory.methods.updateItem(product, types, ethers.utils.parseEther(price), location, tag, digitization, note).send({ from: account })
+        let result = await factory.methods.updateItem([item], types, ethers.utils.parseEther(price), location, tag, digitization, note).send({ from: account })
         console.log("This is the result", result)
         setDidSubmit(true)
       } catch (e) {
@@ -76,13 +76,13 @@ export default function UpdateItem() {
       <br></br>
       <HStack w="80%">
         <FormControl isRequired>
-          <FormLabel color="whiteAlpha.800">Product ID: </FormLabel>
+          <FormLabel color="whiteAlpha.800">Token ID: </FormLabel>
           <Input
             w="100%"
             color="white"
-            name="product"
-            placeholder="e.g., Crewneck, Varsity Jacket, Socks"
-            {...register("product")}
+            name="item"
+            placeholder="e.g., 1, 2, 3"
+            {...register("item")}
           />
         </FormControl>
       </HStack>
