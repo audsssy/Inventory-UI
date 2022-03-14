@@ -72,8 +72,14 @@ export default function InventoryView() {
 
   const getVariants = () => {
     let variant_ = ""
+    let length 
+    if (variant) {
+      length = variant.length
+    } else {
+      return
+    }
 
-    for (let i = 0; i < variant.length; i++) {
+    for (let i = 0; i < length; i++) {
       (i = 0) ? variant_ = variant_ : variant_ = variant_ + ", " + variant[i]
     }
 
